@@ -1,0 +1,16 @@
+<app-listagem-generica
+[titulo]="'Salário Vigente'" 
+[colunas]="[
+  { label: 'ID', campo: 'idsalariovigente' },
+  { label: 'Data Início', campo: 'dtinicio' },
+  { label: 'Data Fim', campo: 'dtfim' },
+  { label: 'Valor', campo: 'valorFormatado' }
+]" 
+  [itens]="itens" 
+  [endpoint]="'salariovigente'"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+>
+</app-listagem-generica>

@@ -1,0 +1,15 @@
+<app-listagem-generica 
+    [titulo]="'Adiantamento'" 
+    [colunas]="[
+        { label: 'ID', campo: 'idadiantamento' },
+        { label: 'Colaborador', campo: 'colaborador_idcolaborador' },
+        { label: 'Valor', campo: 'valor'},
+        { label: 'Data', campo: 'data'},
+        { label: 'Descrição', campo: 'descricao'}
+    ]" 
+    [itens]="adiantamento" 
+    (itemSelecionadoChange)="onItemSelecionado($event)" 
+    (incluir)="onIncluirItem()"
+    (editar)="onEditarItem($event)" 
+    (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

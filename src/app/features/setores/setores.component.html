@@ -1,0 +1,13 @@
+<app-listagem-generica
+    [titulo]="'Setores'"
+    [colunas]="[
+     { label: 'ID', campo: 'idsetores' },
+     { label: 'Nome', campo: 'nome' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'setores'"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

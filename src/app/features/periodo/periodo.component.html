@@ -1,0 +1,15 @@
+<app-listagem-generica
+  [titulo]="'Período'"
+  [colunas]="[
+    { label: 'ID', campo: 'idperiodo' },
+    { label: 'Nome', campo: 'nome' },
+    { label: 'Mês Referência', campo: 'mesreferencia' },
+    { label: 'Ano Referência', campo: 'anoreferencia' }
+  ]"
+  [itens]="itens"
+  [mostrarAcoes]="true"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

@@ -1,0 +1,16 @@
+<app-listagem-generica
+  [titulo]="'Colaboradores'"
+  [colunas]="[
+    { label: 'ID', campo: 'idcolaborador' },
+    { label: 'Nome', campo: 'nome' },
+    { label: 'Dt Início', campo: 'dtinicio' },
+    { label: 'Função', campo: 'idfuncaoempresa' },
+    { label: 'Ativo', campo: 'boolean' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'setores'"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

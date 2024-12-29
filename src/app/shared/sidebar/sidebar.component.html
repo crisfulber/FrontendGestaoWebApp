@@ -1,0 +1,135 @@
+<!-- SIDEBAR -->
+<section id="sidebar" [class.hide]="isCollapsed" class="collapsed">
+	<a href="#" class="brand">
+		<span class="text"><img class="image" src="../../../assets/images/logo-min.svg"></span>
+		<span class="text">Granja Bickel</span>
+	</a>
+	<ul class="side-menu top">
+		<li>
+			<a routerLink="/dashboard" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bxs-dashboard'></i>
+				<span class="text">Dashboard</span>
+			</a>
+		</li>
+		<li>
+			<a>
+				<span class="text-title">
+					<i class='bx bx-chevrons-right'></i>
+					Cadastros Principais
+					<i class='bx bx-chevrons-left'></i>
+				</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/colaborador" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bxs-user-plus'></i>
+				<span class="text">Colaboradores</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/escala" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bx-calendar'></i>
+				<span class="text">Escalas</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/salariovigente" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bx-money'></i>
+				<span class="text">Salários</span>
+			</a>
+		</li>
+		<li>
+			<a>
+				<span class="text-title">
+					<i class='bx bx-chevrons-right'></i>
+					Lançamentos
+					<i class='bx bx-chevrons-left'></i>
+				</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/historicosalarios" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bx-dollar'></i>
+				<span class="text">Alteração de Salários</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-dollar-circle'></i>
+				<span class="text">Descontos/Acréscimos</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-hourglass'></i>
+				<span class="text">Horas Extras/Faltas</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-coin-stack'></i>
+				<span class="text">Bonificação</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/adiantamento" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bxs-credit-card'></i>
+				<span class="text">Adiantamentos</span>
+			</a>
+		</li>
+		<li>
+			<a>
+				<span class="text-title">
+					<i class='bx bx-chevrons-right'></i>
+					Cadastros Gerais
+					<i class='bx bx-chevrons-left'></i>
+				</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-business'></i>
+				<span class="text">Empresa</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bx-building'></i>
+				<span class="text">Unidade</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/setores" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bx-sitemap'></i>
+				<span class="text">Setor</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-group'></i>
+				<span class="text">Função</span>
+			</a>
+		</li>
+		<li>
+			<a routerLink="/salario-vigente" routerLinkActive="active" class="active" (click)="closeSidebar()">
+				<i class='bx bxs-wallet'></i>
+				<span class="text">Salário Vigente</span>
+			</a>
+		</li>
+	</ul>
+	<ul class="side-menu">
+		<li>
+			<a href="#" (click)="closeSidebar()">
+				<i class='bx bxs-cog'></i>
+				<span class="text">Settings</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" class="logout"  (click)="closeSidebar()">
+				<i class='bx bxs-log-out-circle'></i>
+				<span class="text">Logout</span>
+			</a>
+		</li>
+	</ul>
+</section>
+<!-- SIDEBAR -->
