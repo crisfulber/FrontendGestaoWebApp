@@ -1,8 +1,13 @@
-<!-- NAVBAR -->
-<nav>
-	<div class="menu-toggle">
-		<i class='bx bx-menu' (click)="onToggleSidebar()"></i>
-	</div>
-	<a href="#" class="nav-link">Granja Bickel | Gestão App</a>
-</nav>
-<!-- NAVBAR -->
+<div class="card">
+	<p-toolbar>
+		<ng-template #start>
+			<p-button (click)="onToggleSidebar()" severity="secondary"><i class="pi pi-bars"></i></p-button>
+		</ng-template>
+		<ng-template #center>
+			<span class="text-xl font-semibold">Granja Bickel<span class="text-primary"> Gestão WebApp</span></span>
+		</ng-template>
+		<ng-template #end>
+			<p-image src="../../../assets/images/logo-min.svg" width="40"></p-image>
+		</ng-template>
+	</p-toolbar>
+</div>
