@@ -1,68 +1,57 @@
-<main>
-  <div class="head-title">
-    <div class="left">
-      <h1>{{ titulo }}</h1>
-      <ul class="breadcrumb">
-        <li>
-          <a href="#">Cadastros Gerais</a>
-        </li>
-        <li><i class='bx bx-chevron-right'></i></li>
-        <li>
-          <a class="active" href="#">{{ titulo }}</a>
-        </li>
-      </ul>
-    </div>
-    <a incluirButton [routerLink]="['/' + endpoint + '/novo']" class="btn-download">
-      <i class='bx bxs-add-to-queue'></i>
-      <span class="text">Novo Registro</span>
-    </a>
-  </div>
+<div class="card">
+  <p-toolbar styleClass="mb-2">
+    <ng-template #start>
+      <span class="text-xl text-primary font-semibold">Listagem de {{ titulo }} cadastrados</span>
+    </ng-template>
+    <ng-template #end>
+      <p-button label="Novo" icon="pi pi-plus" class="mr-2" [routerLink]="['/' + endpoint + '/novo']" />
+      <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (click)="onExcluirItem(item, $event)"
+        [disabled]="!dataSource.length" />
+    </ng-template>
+  </p-toolbar>
+</div>
 
-  <div class="table-data">
-    <!-- Container da Tabela -->
-    <div class="order">
-      <!-- Cabeçalho -->
-      <div class="head">
-        <h3>{{ titulo }}</h3>
+<p-table #dt [value]="dataSource" [rows]="20" [columns]="colunas" [paginator]="true"
+  [globalFilterFields]="['campo1', 'campo2']" [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true"
+  [showCurrentPageReport]="true" [currentPageReportTemplate]="'Mostrando {first} a {last} de {totalRecords}'" autoLayout="true">
 
-        <!-- Campo de Pesquisa -->
-        <i class="bx bx-search"></i>
-        <i class="bx bx-filter"></i>
-      </div>
-
-      <!-- Tabela -->
-      <table>
-        <thead>
-          <tr>
-            <!-- Geração dinâmica das colunas -->
-            <th *ngFor="let coluna of colunas">{{ coluna.label }}</th>
-            <!-- Cabeçalho de Ações -->
-            <th *ngIf="mostrarAcoes">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Geração dinâmica das linhas -->
-          <tr *ngFor="let item of dataSource" (click)="onRowSelect(item)">
-            <td *ngFor="let coluna of colunas">
-              <span *ngIf="coluna.campo">{{ item[coluna.campo] }}</span>
-            </td>
-
-            <!-- Coluna de Ações -->
-            <td *ngIf="mostrarAcoes">
-              <button editarButton (click)="onEditarItem(item, $event)">
-                <i class='bx bxs-edit-alt'></i>
-              </button>
-              <button excluirButton (click)="onExcluirItem(item, $event)">
-                <i class='bx bxs-trash-alt'></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Mensagem de Nenhum Dado -->
-      <p *ngIf="dataSource.length === 0">Nenhum dado encontrado.</p>
-    </div>
-  </div>
-
-</main>
+  <ng-template #header>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th *ngFor="let coluna of colunas">{{ coluna.label }}</th>
+      <th *ngIf="mostrarAcoes">Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td style="width: 3rem">
+        <p-tableCheckbox [value]="item" />
+      </td>
+      <td *ngFor="let coluna of colunas">
+        <span *ngIf="coluna.campo.includes('.')">
+          {{ getNestedProperty(item, coluna.campo) }}
+        </span>
+        <span *ngIf="!coluna.campo.includes('.')">
+          {{ item[coluna.campo] }}
+        </span>
+      </td>
+      <td *ngIf="mostrarAcoes">
+        <p-button icon="pi pi-pen-to-square" class="mr-2" size="small" editarButton
+          (click)="onEditarItem(item, $event)">
+          <i class="bx bxs-edit-alt"></i>
+        </p-button>
+        <p-button severity="danger" icon="pi pi-trash" size="small" outlined excluirButton
+          (click)="onExcluirItem(item, $event)">
+          <i class="bx bxs-trash-alt"></i>
+        </p-button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="999" class="text-center">Nenhum dado encontrado.</td>
+    </tr>
+  </ng-template>
+</p-table>

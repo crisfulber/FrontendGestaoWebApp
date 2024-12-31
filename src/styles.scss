@@ -7,3 +7,17 @@
     font-weight: 300;
     font-style: normal;
 }
+
+body::-webkit-scrollbar {
+    width: 5px;               /* width of the entire scrollbar */
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #fff;        /* color of the tracking area */
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: rgb(216, 216, 216);
+    border-radius: 20px;  
+    border: none; 
+  }

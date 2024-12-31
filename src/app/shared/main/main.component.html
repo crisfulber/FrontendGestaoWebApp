@@ -1,1 +1,18 @@
-<router-outlet></router-outlet>
+<div class="card">
+    <div class="main">
+        <p-card [style]="{ width: '100', overflow: 'hidden', padding: '20px'}">
+            <ng-template #header>
+                <p-breadcrumb [model]="items" [home]="home" />
+                <p-divider />
+            </ng-template>
+            <ng-template pTemplate="body">
+                <router-outlet></router-outlet>
+            </ng-template>
+            <ng-template #footer>
+                <p-divider />
+                <span class="text-sm">Copyright &copy; 2024 - Todos os direitos reservados | <span
+                        class="text-primary font-semibold">Granja Bickel</span></span>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

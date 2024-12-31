@@ -3,28 +3,46 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../core/services/base.service';
-import { ConfigService } from '../../core/services/config.service';
+import { ConfigService, CampoConfig } from '../../core/services/config.service';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { FloatLabelModule } from "primeng/floatlabel"
+import { InputTextModule } from 'primeng/inputtext';
+import { IftaLabelModule } from 'primeng/iftalabel';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
-    selector: 'app-formulario-generico',
-    imports: [FormsModule, CommonModule],
-    templateUrl: './formulario-generico.component.html',
-    styleUrls: ['./formulario-generico.component.scss']
+  selector: 'app-formulario-generico',
+  imports: [
+    FormsModule,
+    CommonModule,
+    ToolbarModule,
+    CardModule,
+    ButtonModule,
+    FloatLabelModule,
+    InputTextModule,
+    IftaLabelModule,
+    DropdownModule
+  ],
+  templateUrl: './formulario-generico.component.html',
+  styleUrls: ['./formulario-generico.component.scss']
 })
 export class FormularioGenericoComponent implements OnInit {
   @Input() titulo: string = '';
-  @Input() campos: { label: string; campo: string; tipo?: string }[] = [];
+  @Input() campos: CampoConfig[] = [];
   @Input() endpoint!: string;
 
   dados: any = {};
   id: string | null = null;
+  optionsMap: { [campo: string]: any[] } = {};
 
   constructor(
     private baseService: BaseService<any>,
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService
-  ) {}
+  ) { }
 
   ngOnInit() {
     const modelo = this.route.snapshot.params['modelo'];
@@ -39,6 +57,24 @@ export class FormularioGenericoComponent implements OnInit {
     this.titulo = configuracoes.titulo;
     this.campos = configuracoes.campos;
     this.endpoint = configuracoes.endpoint;
+
+    // Processar campos do tipo 'select' para carregar opções
+    this.campos.forEach(campo => {
+      if (campo.tipo === 'select' && campo.optionsEndpoint) {
+        this.baseService.getAll(campo.optionsEndpoint).subscribe({
+          next: (data) => {
+            // Mapeia os dados para o formato { label, value }
+            this.optionsMap[campo.campo] = data.map(item => ({
+              label: item[campo.labelField || 'nome'],
+              value: item[campo.valueField || 'id']
+            }));
+          },
+          error: (err) => {
+            console.error(`Erro ao carregar opções para ${campo.campo}:`, err);
+          }
+        });
+      }
+    });
 
     if (this.id) {
       this.baseService.getById(this.endpoint, +this.id).subscribe({

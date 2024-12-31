@@ -7,6 +7,12 @@
 			<span class="text-xl font-semibold">Granja Bickel<span class="text-primary"> Gestão WebApp</span></span>
 		</ng-template>
 		<ng-template #end>
+			<div class="p-toolbar-group-right mr-2">
+				<button pButton icon="pi pi-sun" *ngIf="!isDarkMode" class="p-button-text"
+					(click)="toggleTheme()" severity="secondary"></button>
+				<button pButton icon="pi pi-moon" *ngIf="isDarkMode" class="p-button-text"
+					(click)="toggleTheme()" severity="secondary"></button>
+			</div>
 			<p-image src="../../../assets/images/logo-min.svg" width="40"></p-image>
 		</ng-template>
 	</p-toolbar>

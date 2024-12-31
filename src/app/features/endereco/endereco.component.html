@@ -1,0 +1,16 @@
+<app-listagem-generica
+    [titulo]="'Endereços'"
+    [colunas]="[
+    { label: 'Rua', campo: 'rua' },
+    { label: 'N°', campo: 'numero' },
+    { label: 'Complemento', campo: 'complemento' },
+    { label: 'Bairro', campo: 'bairro' },
+    { label: 'CEP', campo: 'cep' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'endereco'"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

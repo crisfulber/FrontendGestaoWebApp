@@ -1,36 +1,29 @@
-<div class="table-data">
-  <div class="order">
-    <div class="head">
-      <h3>{{ titulo }}</h3>
-    </div>
-    <div class="form-container">
+<div class="card">
+  <div class="header mb-4">
+    <span class="text-xl text-primary font-semibold">Cadastro de {{ titulo }}.</span>
+  </div>
+  <div class="body mb-5">
+    <form (ngSubmit)="salvar()" class="form-content">
+      <div class="form-group" *ngFor="let campo of campos">
+        <label [for]="campo.campo" class="form-label">{{ campo.label }}</label>
 
-      <form (ngSubmit)="salvar()" class="form-content">
+        <!-- Se for select, renderiza um dropdown -->
+        <p-dropdown *ngIf="campo.tipo === 'select'" [options]="optionsMap[campo.campo]" [(ngModel)]="dados[campo.campo]"
+          [name]="campo.campo" [id]="campo.campo" [placeholder]="'Selecione ' + campo.label" optionLabel="label"
+          optionValue="value" [showClear]="true" [filter]="true"></p-dropdown>
 
-        <div class="form-group" *ngFor="let campo of campos">
-          <label [for]="campo.campo" class="form-label">{{ campo.label }}</label>
-          <input 
-            [(ngModel)]="dados[campo.campo]" 
-            [name]="campo.campo" 
-            [type]="campo.tipo || 'text'" 
-            [id]="campo.campo"
-            class="form-input" 
-            required 
-          />
-        </div>
+        <!-- Se não, renderiza o input normal -->
+        <input *ngIf="campo.tipo !== 'select'" [(ngModel)]="dados[campo.campo]" [name]="campo.campo"
+          [type]="campo.tipo || 'text'" [id]="campo.campo" class="form-input" required />
 
-        <!-- Ações -->
-        <div class="form-actions">
-          <button type="submit" class="btn-save">
-            <i class="bx bxs-save"></i>
-            Salvar
-          </button>
-          <button type="button" class="btn-cancel" (click)="cancelar()">
-            <i class="bx bx-x"></i>
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
+  </div>
+  <div class="footer">
+    <p-button label="Salvar" icon="pi pi-save" class="mr-2" size="small" type="submit" (click)="salvar()">
+    </p-button>
+    <p-button label="Cancelar" icon="pi pi-times" class="mr-2" size="small" type="button" severity="secondary"
+      (click)="cancelar()">
+    </p-button>
   </div>
 </div>

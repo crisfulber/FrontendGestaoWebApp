@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from "./shared/sidebar/sidebar.component";
-import { MainComponent } from "./shared/main/main.component";
 import { PrimeNG } from 'primeng/config';
+import { MainComponent } from './shared/main/main.component';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +20,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.primeng.zIndex = {
-      modal: 1100,    // dialog, sidebar
-      overlay: 1000,  // dropdown, overlaypanel
-      menu: 1000,     // overlay menus
-      tooltip: 1100   // tooltip
+      modal: 1100,    
+      overlay: 1000,  
+      menu: 1000,     
+      tooltip: 1100   
     };
-  }
-
-  onToggleSidebar() {
-    this.sidebarComponent.toggleSidebar();
   }
 }

@@ -1,0 +1,14 @@
+<app-listagem-generica
+    [titulo]="'Municípios'"
+    [colunas]="[
+     { label: 'ID', campo: 'idmunicipio' },
+     { label: 'Nome', campo: 'nome' },
+     { label: 'Estado', campo: 'estado_idestado' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'municipio'"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>
