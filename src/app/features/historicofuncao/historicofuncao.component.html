@@ -1,1 +1,16 @@
-<p>historicofuncao works!</p>
+<app-listagem-generica
+  [titulo]="'Alterações de Função'"
+  [colunas]="[
+    { label: 'Colaborador', campo: 'Colaborador.nome', tipo: 'select', labelField: 'nome', valueField: 'idcolaborador' },
+    { label: 'Data de Alteração', campo: 'dtalteracao', tipo: 'date', labelField: '', valueField: '' },
+    { label: 'Função', campo: 'Funcaoempresa.nome', tipo: 'select', labelField: 'nome', valueField: 'idfuncaoempresa' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'historicofuncao'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

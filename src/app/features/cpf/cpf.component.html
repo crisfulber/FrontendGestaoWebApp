@@ -1,0 +1,14 @@
+<app-listagem-generica
+  [titulo]="'CPF'"
+  [colunas]="[
+    { label: 'Número', campo: 'numero', tipo: 'number', labelField: '', valueField: '' },
+  ]"
+  [itens]="itens"
+  [endpoint]="'cpf'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

@@ -27,8 +27,10 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class ListagemGenericaComponent implements OnInit {
   @Input() endpoint: string = '';
+  @Input() idCampo: string = 'id';
   @Input() titulo: string = '';
-  @Input() colunas: { label: string; campo: string }[] = [];
+  @Input() colunas: { labelField: any; valueField: any; tipo: any; label: string; campo: string }[] = [];
+  @Input() campos: { label: string; campo: string; tipo: string; optionsEndpoint?: string; labelField?: string; valueField?: string; }[] = [];
   @Input() itens: Array<{ [key: string]: any }> = [];
   @Input() mostrarAcoes: boolean = true;
   @Output() itemSelecionadoChange = new EventEmitter<any>();
@@ -36,6 +38,7 @@ export class ListagemGenericaComponent implements OnInit {
   @Output() editar = new EventEmitter<any>();
   @Output() excluir = new EventEmitter<any>();
 
+  options: { [key: string]: any[] } = {};
   dataSource: any[] = [];
   selectedRow: any;
   item: any;

@@ -1,0 +1,16 @@
+<app-listagem-generica
+    [titulo]="'Horas Faltas'"
+    [colunas]="[
+     { label: 'Colaborador', campo: 'Colaborador.nome', tipo: 'select', labelField: 'nome', valueField: 'idcolaborador'  },
+     { label: 'Período', campo: 'Periodo.nome', tipo: 'select', labelField: 'nome', valueField: 'idperiodo'  },
+     { label: 'Horas Faltas', campo: 'horasfaltas', tipo: 'number', labelField: '', valueField: ''  }
+   ]"
+   [itens]="itens"
+   [endpoint]="'horasfaltas'"
+   [idCampo]="idCampo"
+   [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

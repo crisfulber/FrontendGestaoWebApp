@@ -1,0 +1,16 @@
+<app-listagem-generica
+  [titulo]="'Contato'"
+  [colunas]="[
+    { label: 'Telefone', campo: 'telefone', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Email', campo: 'email', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Possui WhatsApp', campo: 'temWhatsapp', tipo: 'boolean', labelField: '', valueField: '' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'contato'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

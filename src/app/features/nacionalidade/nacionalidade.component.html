@@ -1,0 +1,14 @@
+<app-listagem-generica
+  [titulo]="'Nacionalidade'"
+  [colunas]="[
+    { label: 'Nacionalidade', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+  ]"
+  [itens]="itens"
+  [endpoint]="'nacionalidade'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

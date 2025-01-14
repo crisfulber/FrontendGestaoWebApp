@@ -1,21 +1,22 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseService } from '../../core/services/base.service';
+import { NestedService } from '../../core/services/nested.service';
 import { ConfigService, CampoConfig } from '../../core/services/config.service';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { FloatLabelModule } from "primeng/floatlabel"
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { DropdownModule } from 'primeng/dropdown';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
   selector: 'app-formulario-generico',
+  standalone: true,
   imports: [
-    FormsModule,
     CommonModule,
     ToolbarModule,
     CardModule,
@@ -23,7 +24,9 @@ import { DropdownModule } from 'primeng/dropdown';
     FloatLabelModule,
     InputTextModule,
     IftaLabelModule,
-    DropdownModule
+    DropdownModule,
+    AutoCompleteModule,
+    ReactiveFormsModule
   ],
   templateUrl: './formulario-generico.component.html',
   styleUrls: ['./formulario-generico.component.scss']
@@ -32,17 +35,22 @@ export class FormularioGenericoComponent implements OnInit {
   @Input() titulo: string = '';
   @Input() campos: CampoConfig[] = [];
   @Input() endpoint!: string;
+  @Input() values: any;
 
-  dados: any = {};
-  id: string | null = null;
+  form: FormGroup;
   optionsMap: { [campo: string]: any[] } = {};
+  filteredOptions: any[] = [];
+  id: string | null = null;
 
   constructor(
-    private baseService: BaseService<any>,
+    private fb: FormBuilder,
+    private nestedService: NestedService,
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService
-  ) { }
+  ) {
+    this.form = this.fb.group({});
+  }
 
   ngOnInit() {
     const modelo = this.route.snapshot.params['modelo'];
@@ -58,12 +66,13 @@ export class FormularioGenericoComponent implements OnInit {
     this.campos = configuracoes.campos;
     this.endpoint = configuracoes.endpoint;
 
-    // Processar campos do tipo 'select' para carregar opções
     this.campos.forEach(campo => {
+      this.form.addControl(campo.campo, new FormControl('', campo.tipo === 'select' ? Validators.required : null));
+
       if (campo.tipo === 'select' && campo.optionsEndpoint) {
-        this.baseService.getAll(campo.optionsEndpoint).subscribe({
+        this.nestedService.getAll(campo.optionsEndpoint).subscribe({
           next: (data) => {
-            // Mapeia os dados para o formato { label, value }
+            console.log(`Dados carregados para o campo ${campo.campo}:`, data);
             this.optionsMap[campo.campo] = data.map(item => ({
               label: item[campo.labelField || 'nome'],
               value: item[campo.valueField || 'id']
@@ -77,45 +86,89 @@ export class FormularioGenericoComponent implements OnInit {
     });
 
     if (this.id) {
-      this.baseService.getById(this.endpoint, +this.id).subscribe({
-        next: (data) => this.converterDatasParaFormatoInput(data),
-        error: () => this.router.navigate([`/${this.endpoint}`]),
+      this.nestedService.getById(this.endpoint, +this.id).subscribe({
+        next: (data) => {
+          console.log('Dados recebidos do servidor:', data);
+          this.converterDados(data);
+        },
+        error: (err) => {
+          console.error('Erro ao carregar dados do servidor:', err);
+          this.router.navigate([`/${this.endpoint}`]);
+        },
       });
     }
   }
 
-  private converterDatasParaFormatoInput(data: any) {
+  private converterDados(data: any) {
+    console.log('Dados recebidos do serviço:', data);
+    const formData: any = {};
+
+    console.log('Dados recebidos do servidor para conversão:', data);
+
     for (const campo of this.campos) {
-      if (campo.tipo === 'date' && data[campo.campo]) {
-        const dataISO = new Date(data[campo.campo]);
+      let value;
+
+      if (campo.campo.includes('.')) {
+        value = this.getNestedProperty(data, campo.campo);
+      } else {
+        value = data[campo.campo];
+      }
+
+      console.log(`Valor encontrado para o campo ${campo.campo}:`, value);
+
+      if (campo.tipo === 'date' && value) {
+        const dataISO = new Date(value);
         const ano = dataISO.getFullYear();
         const mes = String(dataISO.getMonth() + 1).padStart(2, '0');
         const dia = String(dataISO.getDate()).padStart(2, '0');
-        data[campo.campo] = `${ano}-${mes}-${dia}`;
+        formData[campo.campo] = `${ano}-${mes}-${dia}`;
+      } else if (campo.tipo === 'select' && campo.optionsEndpoint) {
+        const selectedOption = this.optionsMap[campo.campo]?.find(option => option.value === value);
+        formData[campo.campo] = selectedOption ? selectedOption.label : value;
+      } else {
+        formData[campo.campo] = value;
       }
     }
-    this.dados = data;
+
+    console.log('Form data prepared to patch:', formData);
+    this.form.patchValue(formData);
+    console.log('Dados convertidos para o formulário:', this.form.value);
   }
 
-  private converterDatasParaISO() {
-    for (const campo of this.campos) {
-      if (campo.tipo === 'date' && this.dados[campo.campo]) {
-        const [ano, mes, dia] = this.dados[campo.campo].split('-');
-        this.dados[campo.campo] = `${ano}-${mes}-${dia}T00:00:00.000Z`;
+  private getNestedProperty(obj: any, path: string): any {
+    if (!obj || !path) return undefined;
+
+    const properties = path.split('.');
+    let current = obj;
+
+    console.log('key');
+    console.log(Object.keys(obj));
+
+    console.log('for inicio');
+    for (const prop of properties) {
+      console.log(prop);
+      if (current[prop] !== undefined) {
+        console.log('dentro do if');
+        current = current[prop];
+      } else {
+        return undefined;
       }
     }
+    console.log('for fim');
+
+    return current;
   }
 
   salvar() {
     this.converterDatasParaISO();
 
     if (this.id) {
-      this.baseService.update(this.endpoint, +this.id, this.dados).subscribe({
+      this.nestedService.update(this.endpoint, +this.id, this.form.value).subscribe({
         next: () => this.voltarParaListagem(),
         error: () => console.error('Erro ao atualizar os dados'),
       });
     } else {
-      this.baseService.create(this.endpoint, this.dados).subscribe({
+      this.nestedService.create(this.endpoint, this.form.value).subscribe({
         next: () => this.voltarParaListagem(),
         error: () => console.error('Erro ao criar os dados'),
       });
@@ -128,5 +181,25 @@ export class FormularioGenericoComponent implements OnInit {
 
   private voltarParaListagem() {
     this.router.navigate([`/${this.endpoint}`]);
+  }
+
+  filterOptions(event: any, campo: string): void {
+    const query = event.query.toLowerCase();
+    const options = this.optionsMap[campo];
+
+    this.filteredOptions = options.filter((option: any) =>
+      option.label.toLowerCase().includes(query)
+    );
+  }
+
+  private converterDatasParaISO() {
+    for (const campo of this.campos) {
+      if (campo.tipo === 'date' && this.form.value[campo.campo]) {
+        const [ano, mes, dia] = this.form.value[campo.campo].split('-');
+        this.form.patchValue({
+          [campo.campo]: `${ano}-${mes}-${dia}T00:00:00.000Z`
+        });
+      }
+    }
   }
 }

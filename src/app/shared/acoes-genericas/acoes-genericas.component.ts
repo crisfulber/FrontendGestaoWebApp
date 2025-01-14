@@ -3,10 +3,10 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-acoes-genericas',
-    imports: [CommonModule, RouterModule],
-    templateUrl: './acoes-genericas.component.html',
-    styleUrls: ['./acoes-genericas.component.scss']
+  selector: 'app-acoes-genericas',
+  imports: [CommonModule, RouterModule],
+  templateUrl: './acoes-genericas.component.html',
+  styleUrls: ['./acoes-genericas.component.scss']
 })
 export class AcoesGenericasComponent {
   @Input() endpoint!: string;
@@ -19,7 +19,7 @@ export class AcoesGenericasComponent {
   @Output() editar = new EventEmitter<any>();
   @Output() excluir = new EventEmitter<any>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   onIncluir() {
     this.router.navigate([`/${this.endpoint}/novo`]);

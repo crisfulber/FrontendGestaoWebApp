@@ -1,0 +1,18 @@
+<app-listagem-generica
+  [titulo]="'CTPS'"
+  [colunas]="[
+    { label: 'Número', campo: 'numero', tipo: 'number', labelField: '', valueField: '' },
+    { label: 'Série', campo: 'serie', tipo: 'number', labelField: '', valueField: '' },
+    { label: 'Data de Emissão', campo: 'dtemissao', tipo: 'date', labelField: '', valueField: '' },
+    { label: 'PIS', campo: 'numpis', tipo: 'number', labelField: '', valueField: '' },
+    { label: 'Estado', campo: 'Estado.sigla', tipo: 'select', labelField: 'sigla', valueField: 'idestado' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'ctps'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

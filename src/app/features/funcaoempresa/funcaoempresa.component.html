@@ -1,0 +1,15 @@
+<app-listagem-generica
+    [titulo]="'Funções'"
+    [colunas]="[
+     { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: ''  },
+     { label: 'Unidade', campo: 'Unidade.nome', tipo: 'select', labelField: 'nome', valueField: 'idunidade'  }
+   ]"
+   [itens]="itens"
+   [endpoint]="'funcaoempresa'"
+   [idCampo]="idCampo"
+   [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

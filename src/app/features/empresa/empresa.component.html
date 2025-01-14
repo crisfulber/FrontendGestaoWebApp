@@ -1,1 +1,13 @@
-<p>empresa works!</p>
+<app-listagem-generica
+    [titulo]="'Empresas'"
+    [colunas]="[
+     { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+     { label: 'Município', campo: 'Endereco.Municipio.nome', tipo: 'select', labelField: 'Municipio.nome', valueField: 'idendereco' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'empresa'"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

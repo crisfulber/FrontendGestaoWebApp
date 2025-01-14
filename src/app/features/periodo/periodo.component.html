@@ -1,13 +1,14 @@
 <app-listagem-generica
   [titulo]="'Período'"
   [colunas]="[
-    { label: 'ID', campo: 'idperiodo' },
-    { label: 'Nome', campo: 'nome' },
-    { label: 'Mês Referência', campo: 'mesreferencia' },
-    { label: 'Ano Referência', campo: 'anoreferencia' }
+    { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Mês Referência', campo: 'mesreferencia', tipo: 'number', labelField: '', valueField: ''  },
+    { label: 'Ano Referência', campo: 'anoreferencia', tipo: 'number', labelField: '', valueField: ''  }
   ]"
   [itens]="itens"
-  [mostrarAcoes]="true"
+  [endpoint]="'periodo'"
+  [idCampo]="idCampo"
+  [campos]="campos"
   (itemSelecionadoChange)="onItemSelecionado($event)"
   (incluir)="onIncluirItem()"
   (editar)="onEditarItem($event)"

@@ -1,0 +1,15 @@
+<app-listagem-generica
+  [titulo]="'Estado Civil'"
+  [colunas]="[
+    { label: 'Estado Civil', campo: 'estado', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Cônjuge', campo: 'conjuge', tipo: 'text', labelField: '', valueField: '' },
+  ]"
+  [itens]="itens"
+  [endpoint]="'estadocivil'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

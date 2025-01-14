@@ -1,1 +1,16 @@
-<p>unidade works!</p>
+<app-listagem-generica
+    [titulo]="'Unidades'"
+    [colunas]="[
+     { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+     { label: 'Empresa', campo: 'Empresa.nome', tipo: 'select', labelField: 'nome', valueField: 'idempresa' },
+     { label: 'Município', campo: 'Endereco.Municipio.nome', tipo: 'select', labelField: 'Municipio.nome', valueField: 'idendereco' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'unidade'"
+   [idCampo]="idCampo"
+   [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

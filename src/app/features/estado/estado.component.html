@@ -1,11 +1,13 @@
-<app-listagem-generica 
+<app-listagem-generica
     [titulo]="'Estados'" 
     [colunas]="[
-      { label: 'ID', campo: 'idestado' },
-      { label: 'Nome', campo: 'nome' },
-      { label: 'Sigla', campo: 'sigla' }
+      { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: ''  },
+      { label: 'Sigla', campo: 'sigla', tipo: 'text', labelField: '', valueField: ''  }
       ]" 
     [itens]="itens" 
+    [endpoint]="'estado'"
+    [idCampo]="idCampo"
+    [campos]="campos"
     [mostrarAcoes]="true" 
     (itemSelecionadoChange)="onItemSelecionado($event)"
     (incluir)="onIncluirItem()" 

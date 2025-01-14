@@ -1,26 +1,48 @@
 <div class="card">
   <p-toolbar styleClass="mb-2">
     <ng-template #start>
-      <span class="text-xl text-primary font-semibold">Listagem de {{ titulo }} cadastrados</span>
+      <span class="text-xl text-primary font-semibold">Listagem de {{ titulo }}</span>
     </ng-template>
     <ng-template #end>
-      <p-button label="Novo" icon="pi pi-plus" class="mr-2" [routerLink]="['/' + endpoint + '/novo']" />
-      <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (click)="onExcluirItem(item, $event)"
-        [disabled]="!dataSource.length" />
+      <p-button 
+        size="small" 
+        label="Novo" 
+        icon="pi pi-plus" 
+        class="mr-2" 
+        [routerLink]="['/' + endpoint + '/novo']" 
+      />
+      <p-button 
+        size="small" 
+        label="Exportar" 
+        icon="pi pi-external-link"  
+        variant="outlined"
+        severity="info" 
+      />
     </ng-template>
   </p-toolbar>
 </div>
 
-<p-table #dt [value]="dataSource" [rows]="20" [columns]="colunas" [paginator]="true"
-  [globalFilterFields]="['campo1', 'campo2']" [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true"
-  [showCurrentPageReport]="true" [currentPageReportTemplate]="'Mostrando {first} a {last} de {totalRecords}'" autoLayout="true">
-
+<p-table 
+  #dt 
+  [value]="itens" 
+  [rows]="20" 
+  [columns]="colunas" 
+  [paginator]="true"
+  [globalFilterFields]="['campo1', 'campo2']" 
+  [rowHover]="true"
+  [showCurrentPageReport]="true" 
+  autoLayout="true"
+  [exportHeader]="'Listagem de ' + titulo"
+>
   <ng-template #header>
     <tr>
-      <th style="width: 3rem">
+      <th style="width: auto">
         <p-tableHeaderCheckbox />
       </th>
-      <th *ngFor="let coluna of colunas">{{ coluna.label }}</th>
+      <th *ngFor="let coluna of colunas" [style.minWidth.px]="coluna.label === 'Valor' ? 100 : 150" 
+          [ngClass]="{ 'text-right': coluna.label === 'Valor', 'text-left': coluna.label !== 'Valor' }">
+        {{ coluna.label }}
+      </th>
       <th *ngIf="mostrarAcoes">Ações</th>
     </tr>
   </ng-template>
@@ -29,20 +51,27 @@
       <td style="width: 3rem">
         <p-tableCheckbox [value]="item" />
       </td>
-      <td *ngFor="let coluna of colunas">
+      <td *ngFor="let coluna of colunas" [ngClass]="{ 'text-right': coluna.label === 'Valor', 'text-left': coluna.label !== 'Valor' }">
         <span *ngIf="coluna.campo.includes('.')">
           {{ getNestedProperty(item, coluna.campo) }}
         </span>
         <span *ngIf="!coluna.campo.includes('.')">
-          {{ item[coluna.campo] }}
+          <ng-container *ngIf="coluna.tipo === 'select'; else defaultCell">
+            <ng-container *ngFor="let option of options[coluna.campo]">
+              <span *ngIf="option[coluna.valueField] === item[coluna.campo]">{{ option[coluna.labelField] }}</span>
+            </ng-container>
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ item[coluna.campo] }}
+          </ng-template>
         </span>
       </td>
       <td *ngIf="mostrarAcoes">
-        <p-button icon="pi pi-pen-to-square" class="mr-2" size="small" editarButton
+        <p-button variant="text" icon="pi pi-pen-to-square" class="mr-2" size="small" editarButton
           (click)="onEditarItem(item, $event)">
           <i class="bx bxs-edit-alt"></i>
         </p-button>
-        <p-button severity="danger" icon="pi pi-trash" size="small" outlined excluirButton
+        <p-button variant="text" severity="danger" icon="pi pi-trash" size="small" outlined excluirButton
           (click)="onExcluirItem(item, $event)">
           <i class="bx bxs-trash-alt"></i>
         </p-button>

@@ -1,3 +1,24 @@
 .card {
-    margin-top: 80px;
+    border: 1px solid var(--p-surface-200);
+    border-radius: 7px;
+}
+
+:host {
+    grid-area: main;
+    background-color: #fff;
+    z-index: 999;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        border-radius: 20px;
+        border: none;
+    }
 }

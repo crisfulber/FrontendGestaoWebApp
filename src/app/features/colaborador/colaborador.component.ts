@@ -8,13 +8,15 @@ import { ListagemGenericaComponent } from '../../shared/listagem-generica/listag
     selector: 'app-colaborador',
     imports: [ListagemGenericaComponent],
     templateUrl: './colaborador.component.html',
-    styleUrl: './colaborador.component.scss'
+    styleUrls: ['./colaborador.component.scss']
 })
 export class ColaboradorComponent implements OnInit {
   titulo: string = '';
-  colunas: { label: string; campo: string }[] = [];
+  colunas: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }[] = [];
+  campos: { label: string; campo: string; tipo: string; optionsEndpoint?: string; labelField?: string; valueField?: string; }[] = [];
   itens: any[] = [];
   endpoint: string = '';
+  idCampo: string = '';
   selectedItem: any;
 
   constructor(
@@ -27,8 +29,16 @@ export class ColaboradorComponent implements OnInit {
     const configuracao = this.configService.getConfiguracao('colaborador');
     if (configuracao) {
       this.titulo = configuracao.titulo;
-      this.colunas = configuracao.colunas;
+      this.colunas = configuracao.colunas.map((col: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }) => ({ 
+        label: col.label, 
+        campo: col.campo,
+        tipo: col.tipo || '',
+        labelField: col.labelField || '',
+        valueField: col.valueField || ''
+      }));
+      this.campos = configuracao.campos;
       this.endpoint = configuracao.endpoint;
+      this.idCampo = configuracao.idCampo;
       this.carregarItens();
     }
   }
@@ -44,14 +54,14 @@ export class ColaboradorComponent implements OnInit {
   }
 
   onEditarItem(item: any) {
-    if (item && item.idcolaborador) {
-      this.router.navigate([`/${this.endpoint}/editar/${item.idcolaborador}`]);
+    if (item && item[this.idCampo]) {
+      this.router.navigate([`/${this.endpoint}/editar/${item[this.idCampo]}`]);
     }
   }
 
   onExcluirItem(item: any) {
     if (confirm(`Deseja realmente excluir o item "${item.nome}"?`)) {
-      this.baseService.delete(this.endpoint, item.idcolaborador).subscribe({
+      this.baseService.delete(this.endpoint, item[this.idCampo]).subscribe({
         next: () => this.carregarItens(),
         error: () => console.error('Erro ao excluir o item'),
       });

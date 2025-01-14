@@ -3,64 +3,50 @@ import { BaseService } from '../../core/services/base.service';
 import { ConfigService } from '../../core/services/config.service';
 import { Router } from '@angular/router';
 import { ListagemGenericaComponent } from '../../shared/listagem-generica/listagem-generica.component';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-salario-vigente',
-    imports: [ListagemGenericaComponent],
-    templateUrl: './salariovigente.component.html',
-    styleUrls: ['./salariovigente.component.scss'],
-    providers: [DecimalPipe]
+  selector: 'app-salario-vigente',
+  imports: [ListagemGenericaComponent],
+  templateUrl: './salariovigente.component.html',
+  styleUrls: ['./salariovigente.component.scss']
 })
 export class SalarioVigenteComponent implements OnInit {
-  [x: string]: any;
   titulo: string = '';
-  colunas: { label: string; campo: string }[] = [];
+  colunas: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }[] = [];
+  campos: { label: string; campo: string; tipo: string; optionsEndpoint?: string; labelField?: string; valueField?: string; }[] = [];
   itens: any[] = [];
   endpoint: string = '';
+  idCampo: string = '';
   selectedItem: any;
 
   constructor(
     private baseService: BaseService<any>,
     private configService: ConfigService,
-    private router: Router,
-    private decimalPipe: DecimalPipe
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit() {
     const configuracao = this.configService.getConfiguracao('salariovigente');
     if (configuracao) {
       this.titulo = configuracao.titulo;
-      this.colunas = configuracao.colunas;
+      this.colunas = configuracao.colunas.map((col: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }) => ({ 
+        label: col.label, 
+        campo: col.campo,
+        tipo: col.tipo || '',
+        labelField: col.labelField || '',
+        valueField: col.valueField || ''
+      }));
+      this.campos = configuracao.campos;
       this.endpoint = configuracao.endpoint;
+      this.idCampo = configuracao.idCampo;
       this.carregarItens();
     }
   }
 
   carregarItens() {
     this.baseService.getAll(this.endpoint).subscribe({
-      next: (data) => {
-        this.itens = data.map(item => ({
-          ...item,
-          dtinicio: this.formatarData(item.dtinicio),
-          dtfim: this.formatarData(item.dtfim),
-          valorFormatado: this.formatarNumero(item.valor)
-        }));
-      },
-      error: () => console.error('Erro ao carregar itens'),
+      next: (data) => (this.itens = data),
     });
-  }
-
-  formatarNumero(numero: number | string): string {
-    return this.decimalPipe.transform(numero, '1.2-2', 'pt-BR') || '';
-  }
-
-  formatarData(data: string): string {
-    const date = new Date(data);
-    const dia = String(date.getUTCDate()).padStart(2, '0');
-    const mes = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const ano = date.getUTCFullYear();
-    return `${dia}/${mes}/${ano}`;
   }
 
   onIncluirItem() {
@@ -68,14 +54,14 @@ export class SalarioVigenteComponent implements OnInit {
   }
 
   onEditarItem(item: any) {
-    if (item && item.idsalariovigente) {
-      this.router.navigate([`/${this.endpoint}/editar/${item.idsalariovigente}`]);
+    if (item && item[this.idCampo]) {
+      this.router.navigate([`/${this.endpoint}/editar/${item[this.idCampo]}`]);
     }
   }
 
   onExcluirItem(item: any) {
-    if (confirm(`Deseja realmente excluir o item com Data Início "${item.dtinicio}"?`)) {
-      this.baseService.delete(this.endpoint, item.idsalariovigente).subscribe({
+    if (confirm(`Deseja realmente excluir o item "${item.nome}"?`)) {
+      this.baseService.delete(this.endpoint, item[this.idCampo]).subscribe({
         next: () => this.carregarItens(),
         error: () => console.error('Erro ao excluir o item'),
       });
@@ -84,5 +70,6 @@ export class SalarioVigenteComponent implements OnInit {
 
   onItemSelecionado(item: any) {
     this.selectedItem = item;
+    console.log('Item selecionado:', item);
   }
 }

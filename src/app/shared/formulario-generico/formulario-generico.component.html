@@ -3,19 +3,26 @@
     <span class="text-xl text-primary font-semibold">Cadastro de {{ titulo }}.</span>
   </div>
   <div class="body mb-5">
-    <form (ngSubmit)="salvar()" class="form-content">
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="form-content">
       <div class="form-group" *ngFor="let campo of campos">
         <label [for]="campo.campo" class="form-label">{{ campo.label }}</label>
 
-        <!-- Se for select, renderiza um dropdown -->
-        <p-dropdown *ngIf="campo.tipo === 'select'" [options]="optionsMap[campo.campo]" [(ngModel)]="dados[campo.campo]"
-          [name]="campo.campo" [id]="campo.campo" [placeholder]="'Selecione ' + campo.label" optionLabel="label"
-          optionValue="value" [showClear]="true" [filter]="true"></p-dropdown>
+        <p-autoComplete *ngIf="campo.tipo === 'select'" 
+                        [formControlName]="campo.campo" 
+                        [name]="campo.campo" 
+                        [id]="campo.campo" 
+                        [placeholder]="'Selecione ' + campo.label" 
+                        [suggestions]="filteredOptions" 
+                        [field]="'label'" 
+                        [dropdown]="true" 
+                        [forceSelection]="true" 
+                        (completeMethod)="filterOptions($event, campo.campo)" 
+                        (onSelect)="form.get(campo.campo)?.setValue($event.value)" 
+                        [showClear]="true">
+        </p-autoComplete>
 
-        <!-- Se não, renderiza o input normal -->
-        <input *ngIf="campo.tipo !== 'select'" [(ngModel)]="dados[campo.campo]" [name]="campo.campo"
+        <input *ngIf="campo.tipo !== 'select'" [formControlName]="campo.campo" [name]="campo.campo"
           [type]="campo.tipo || 'text'" [id]="campo.campo" class="form-input" required />
-
       </div>
     </form>
   </div>

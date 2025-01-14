@@ -1,0 +1,20 @@
+<app-listagem-generica
+  [titulo]="'RG'"
+  [colunas]="[
+    { label: 'Número', campo: 'numero', tipo: 'number', labelField: '', valueField: '' },
+    { label: 'Data de Emissão', campo: 'dtemissao', tipo: 'date', labelField: '', valueField: '' },
+    { label: 'Órgão Emissor', campo: 'orgao', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Estado', campo: 'Estado.sigla', tipo: 'select', labelField: 'sigla', valueField: 'idestado' },
+    { label: 'Nome do Pai', campo: 'nomepai', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Nome da Mãe', campo: 'nomemae', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Data de Nascimento', campo: 'dtnascimento', tipo: 'date', labelField: '', valueField: '' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'rg'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

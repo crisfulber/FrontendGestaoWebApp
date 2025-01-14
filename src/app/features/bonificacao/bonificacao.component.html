@@ -1,1 +1,17 @@
-<h1>BONIFICAÇÃO</h1>
+<app-listagem-generica
+    [titulo]="'Bonificação'"
+    [colunas]="[
+     { label: 'Período', campo: 'periodo_idperiodo', tipo: 'test', labelField: '', valueField: '' },
+     { label: 'Valor Apurado', campo: 'vlrapurado', tipo: 'number', labelField: '', valueField: '' },
+     { label: 'Unidade', campo: 'Unidade.nome', tipo: 'select', labelField: 'nome', valueField: 'idunidade' },
+     { label: 'Função', campo: 'Funcaoempresa.nome', tipo: 'select', labelField: 'nome', valueField: 'idfuncaoempresa' }
+   ]"
+  [itens]="itens"
+  [endpoint]="'bonificacao'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

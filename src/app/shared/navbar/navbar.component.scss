@@ -1,5 +1,21 @@
-.card {
-    position: fixed;
-    width: calc(100% - 15px);
+:host {
+    grid-area: navbar;
+    background-color: #fff;
     z-index: 1000;
+    position: sticky;
+    top: 0;
+}
+
+.model-2 {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .model-1 {
+        display: none;
+    }
+
+    .model-2 {
+        display: contents;
+    }
 }

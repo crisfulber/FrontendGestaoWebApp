@@ -1,0 +1,16 @@
+<app-listagem-generica
+    [titulo]="'Horas Extras'"
+    [colunas]="[
+     { label: 'Colaborador', campo: 'Colaborador.nome', tipo: 'select', labelField: 'nome', valueField: 'idcolaborador'  },
+     { label: 'Período', campo: 'Periodo.nome', tipo: 'select', labelField: 'nome', valueField: 'idperiodo'  },
+     { label: 'Horas Extras', campo: 'horasextras', tipo: 'number', labelField: '', valueField: ''  }
+   ]"
+   [itens]="itens"
+   [endpoint]="'horasextras'"
+   [idCampo]="idCampo"
+   [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

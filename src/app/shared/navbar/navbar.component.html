@@ -1,19 +1,57 @@
 <div class="card">
+    <p-menubar [model]="items">
+        <ng-template #start>
+			<p-image src="../../../assets/images/logo-min.svg" width="40"></p-image>
+        </ng-template>
+        <ng-template #item let-item let-root="root">
+            <a pRipple [routerLink]="item.routerLink" class="flex items-center p-menubar-item-link">
+                <span>{{ item.label }}</span>
+                <p-badge *ngIf="item.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="item.badge" />
+                <span *ngIf="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+                <i *ngIf="item.items" [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"></i>
+            </a>
+        </ng-template>
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <input type="text" pInputText placeholder="Procurar..." class="w-36" />
+                <p-avatar image="../../../assets/images/avatar.png" shape="circle" />
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="card">
 	<p-toolbar>
 		<ng-template #start>
-			<p-button (click)="onToggleSidebar()" severity="secondary"><i class="pi pi-bars"></i></p-button>
+			<p-button severity="secondary" (click)="toggleSidebar.emit()"><i class="pi pi-bars"></i></p-button>
 		</ng-template>
 		<ng-template #center>
-			<span class="text-xl font-semibold">Granja Bickel<span class="text-primary"> Gestão WebApp</span></span>
+			<div class="model-1">
+				<span class="text-xl text-primary"><span class="font-semibold">Granja Bickel</span> Gestão WebApp</span>
+			</div>
+			<div class="model-2">
+				<span class="text-xl text-primary font-semibold">Granja Bickel</span>
+			</div>
 		</ng-template>
 		<ng-template #end>
-			<div class="p-toolbar-group-right mr-2">
-				<button pButton icon="pi pi-sun" *ngIf="!isDarkMode" class="p-button-text"
-					(click)="toggleTheme()" severity="secondary"></button>
-				<button pButton icon="pi pi-moon" *ngIf="isDarkMode" class="p-button-text"
-					(click)="toggleTheme()" severity="secondary"></button>
-			</div>
 			<p-image src="../../../assets/images/logo-min.svg" width="40"></p-image>
 		</ng-template>
 	</p-toolbar>
 </div>
+-->

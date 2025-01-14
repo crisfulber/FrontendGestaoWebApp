@@ -1,31 +1,57 @@
 .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form-label {
-    margin-bottom: 8px;
-    font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group {
-    margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .form-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-
-    &:focus {
-        outline: none;
-    }
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 
-.form-content {
-    max-width: 1000px;
-    margin: 0 auto;
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+p-autoComplete {
+  width: 100%;
+}
+
+p-autoComplete::ng-deep .p-inputtext {
+  padding: 0.5rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+p-autoComplete::ng-deep .p-inputtext:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+p-autoComplete::ng-deep .p-autocomplete-panel {
+  box-shadow: none !important;
+  border: 1px solid #ddd !important;
 }

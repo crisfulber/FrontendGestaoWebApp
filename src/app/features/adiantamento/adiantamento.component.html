@@ -1,13 +1,15 @@
 <app-listagem-generica 
-    [titulo]="'Adiantamento'" 
+    [titulo]="'Adiantamentos'" 
     [colunas]="[
-        { label: 'ID', campo: 'idadiantamento' },
-        { label: 'Colaborador', campo: 'colaborador_idcolaborador' },
-        { label: 'Valor', campo: 'valor'},
-        { label: 'Data', campo: 'data'},
-        { label: 'Descrição', campo: 'descricao'}
+        { label: 'Colaborador', campo: 'colaborador_idcolaborador', tipo: 'text', labelField: '', valueField: ''  },
+        { label: 'Valor', campo: 'valor', tipo: 'number', labelField: '', valueField: '' },
+        { label: 'Data', campo: 'data', tipo: 'date', labelField: '', valueField: '' },
+        { label: 'Descrição', campo: 'descricao', tipo: 'text', labelField: '', valueField: '' }
     ]" 
-    [itens]="adiantamento" 
+    [itens]="itens" 
+    [endpoint]="'adiantamento'"
+    [idCampo]="idCampo"
+    [campos]="campos"
     (itemSelecionadoChange)="onItemSelecionado($event)" 
     (incluir)="onIncluirItem()"
     (editar)="onEditarItem($event)" 

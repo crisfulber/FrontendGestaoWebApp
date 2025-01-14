@@ -1,0 +1,19 @@
+<app-listagem-generica
+  [titulo]="'Escalas'"
+  [colunas]="[
+    { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Descrição', campo: 'descricao', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Hora Entrada', campo: 'horaentrada', tipo: 'time', labelField: '', valueField: '' },
+    { label: 'Saída Intervalo', campo: 'horasaiintervalo', tipo: 'time', labelField: '', valueField: '' },
+    { label: 'Volta Intervalo', campo: 'horavoltaintervalo', tipo: 'time', labelField: '', valueField: '' },
+    { label: 'Hora Saída', campo: 'horasaida', tipo: 'time', labelField: '', valueField: '' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'escala'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

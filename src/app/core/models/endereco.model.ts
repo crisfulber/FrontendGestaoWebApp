@@ -1,3 +1,5 @@
+import { Municipio } from "./municipio.model";
+
 export interface Endereco {
     idendereco: number;
     rua: string;
@@ -6,4 +8,5 @@ export interface Endereco {
     bairro: string;
     cep: number;
     municipio_idmunicipio: number;
+    Municipio?: Municipio;
   }

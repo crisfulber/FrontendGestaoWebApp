@@ -1,0 +1,17 @@
+<app-listagem-generica
+    [titulo]="'Outros Acréscimos'"
+    [colunas]="[
+     { label: 'Colaborador', campo: 'Colaborador.nome', tipo: 'select', labelField: 'nome', valueField: 'idcolaborado' },
+     { label: 'Período', campo: 'Periodo.nome', tipo: 'select', labelField: 'nome', valueField: 'idperiodo' },
+     { label: 'Valor', campo: 'valor', tipo: 'number', labelField: '', valueField: '' },
+     { label: 'Parcelas', campo: 'numparcelas', tipo: 'number', labelField: '', valueField: '' }
+   ]"
+   [itens]="itens"
+   [endpoint]="'outrosacrescimos'"
+   [idCampo]="idCampo"
+   [campos]="campos"
+   (itemSelecionadoChange)="onItemSelecionado($event)"
+   (incluir)="onIncluirItem()"
+   (editar)="onEditarItem($event)"
+   (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

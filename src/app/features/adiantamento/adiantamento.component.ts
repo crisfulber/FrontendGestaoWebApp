@@ -1,71 +1,75 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ListagemGenericaComponent } from '../../shared/listagem-generica/listagem-generica.component';
 import { BaseService } from '../../core/services/base.service';
+import { ConfigService } from '../../core/services/config.service';
 import { Router } from '@angular/router';
-import { Adiantamento } from '../../core/models/adiantamento.model';
+import { ListagemGenericaComponent } from '../../shared/listagem-generica/listagem-generica.component';
 
 @Component({
     selector: 'app-adiantamento',
-    imports: [CommonModule, ListagemGenericaComponent],
+    imports: [ListagemGenericaComponent],
     templateUrl: './adiantamento.component.html',
     styleUrl: './adiantamento.component.scss'
 })
 export class AdiantamentoComponent implements OnInit {
-adiantamento: Adiantamento[] = [];
-  itemSelecionado: any;
+  titulo: string = '';
+  colunas: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }[] = [];
+  campos: { label: string; campo: string; tipo: string; optionsEndpoint?: string; labelField?: string; valueField?: string; }[] = [];
+  itens: any[] = [];
+  endpoint: string = '';
+  idCampo: string = '';
+  selectedItem: any;
 
   constructor(
-    private baseService: BaseService<Adiantamento>,
-    private router: Router,
+    private baseService: BaseService<any>,
+    private configService: ConfigService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.carregarAdiantamento();
+    const configuracao = this.configService.getConfiguracao('adiantamento');
+    if (configuracao) {
+      this.titulo = configuracao.titulo;
+      this.colunas = configuracao.colunas.map((col: { label: string; campo: string; tipo?: string; labelField?: string; valueField?: string }) => ({ 
+        label: col.label, 
+        campo: col.campo,
+        tipo: col.tipo || '',
+        labelField: col.labelField || '',
+        valueField: col.valueField || ''
+      }));
+      this.campos = configuracao.campos;
+      this.endpoint = configuracao.endpoint;
+      this.idCampo = configuracao.idCampo;
+      this.carregarItens();
+    }
   }
 
-  carregarAdiantamento() {
-    this.baseService.getAll('adiantamento').subscribe({
-      next: (data: Adiantamento[]) => {
-        this.adiantamento = data;
-      },
-      error: (err: any) => {
-        console.error('Erro ao carregar adiantamentos:', err);
-      },
+  carregarItens() {
+    this.baseService.getAll(this.endpoint).subscribe({
+      next: (data) => (this.itens = data),
     });
   }
 
-  onItemSelecionado(item: any) {
-    this.itemSelecionado = item;
-    console.log('Item selecionado no pai:', this.itemSelecionado);
-  }
-
   onIncluirItem() {
-    this.router.navigate(['/adiantamento/novo']);
+    this.router.navigate([`/${this.endpoint}/novo`]);
   }
 
   onEditarItem(item: any) {
-    if (item && item.idadiantamento) {
-      this.router.navigate([`/adiantamento/editar`, item.idadiantamento]);
-    } else {
-      console.error('Nenhum item selecionado para edição.');
+    if (item && item[this.idCampo]) {
+      this.router.navigate([`/${this.endpoint}/editar/${item[this.idCampo]}`]);
     }
   }
 
   onExcluirItem(item: any) {
-    if (item && item.idadiantamento) {
-      if (confirm('Deseja realmente excluir este item?')) {
-        this.baseService.delete('adiantamento', item.idadiantamento).subscribe({
-          next: () => {
-            this.adiantamento = this.adiantamento.filter(s => s.idadiantamento !== item.idadiantamento);
-            console.log('Item excluído com sucesso.');
-          },
-          error: (err) => {
-            console.error('Erro ao excluir o item:', err);
-          },
-        });
-      }
+    if (confirm(`Deseja realmente excluir o item "${item.nome}"?`)) {
+      this.baseService.delete(this.endpoint, item[this.idCampo]).subscribe({
+        next: () => this.carregarItens(),
+        error: () => console.error('Erro ao excluir o item'),
+      });
     }
   }
 
+  onItemSelecionado(item: any) {
+    this.selectedItem = item;
+    console.log('Item selecionado:', item);
+  }
 }

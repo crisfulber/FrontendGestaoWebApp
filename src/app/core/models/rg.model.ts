@@ -1,3 +1,5 @@
+import { Estado } from "./estado.model";
+
 export interface RG {
     idrg: number;
     numero: number;
@@ -7,4 +9,5 @@ export interface RG {
     nomemae: string;
     dtnascimento: Date;
     estado_idestado: number;
+    Estado?: Estado;
   }

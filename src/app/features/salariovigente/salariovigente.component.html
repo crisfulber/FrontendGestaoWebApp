@@ -1,13 +1,15 @@
 <app-listagem-generica
 [titulo]="'Salário Vigente'" 
 [colunas]="[
-  { label: 'ID', campo: 'idsalariovigente' },
-  { label: 'Data Início', campo: 'dtinicio' },
-  { label: 'Data Fim', campo: 'dtfim' },
-  { label: 'Valor', campo: 'valorFormatado' }
+  { label: 'Empresa', campo: 'Empresa.nome', tipo: 'select', labelField: 'nome', valueField: 'idempresa' },
+  { label: 'Data Início', campo: 'dtinicio', tipo: 'number', labelField: '', valueField: '' },
+  { label: 'Data Fim', campo: 'dtfim', tipo: 'number', labelField: '', valueField: '' },
+  { label: 'Valor', campo: 'valorFormatado', tipo: 'number', labelField: '', valueField: '' }
 ]" 
   [itens]="itens" 
   [endpoint]="'salariovigente'"
+  [idCampo]="idCampo"
+  [campos]="campos"
   (itemSelecionadoChange)="onItemSelecionado($event)"
   (incluir)="onIncluirItem()"
   (editar)="onEditarItem($event)"

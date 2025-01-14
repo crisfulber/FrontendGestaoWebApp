@@ -1,0 +1,19 @@
+.layout-container {
+  display: grid;
+  grid-template-areas:
+    "navbar navbar"
+    "main main"
+    "footer footer";
+  grid-template-rows: 70px auto 70px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    grid-template-areas:
+      "navbar"
+      "main"
+      "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: 70px auto 70px;
+  }
+}

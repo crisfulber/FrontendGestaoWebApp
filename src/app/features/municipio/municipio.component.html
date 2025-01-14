@@ -1,12 +1,13 @@
 <app-listagem-generica
     [titulo]="'Municípios'"
     [colunas]="[
-     { label: 'ID', campo: 'idmunicipio' },
-     { label: 'Nome', campo: 'nome' },
-     { label: 'Estado', campo: 'estado_idestado' }
+     { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: ''  },
+     { label: 'Estado', campo: 'Estado.sigla', tipo: 'select', labelField: 'sigla', valueField: 'idestado'  }
    ]"
    [itens]="itens"
    [endpoint]="'municipio'"
+   [idCampo]="idCampo"
+   [campos]="campos"
    (itemSelecionadoChange)="onItemSelecionado($event)"
    (incluir)="onIncluirItem()"
    (editar)="onEditarItem($event)"

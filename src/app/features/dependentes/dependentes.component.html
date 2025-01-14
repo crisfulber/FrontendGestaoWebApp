@@ -1,0 +1,16 @@
+<app-listagem-generica
+  [titulo]="'Dependentes'"
+  [colunas]="[
+    { label: 'Nome', campo: 'nome', tipo: 'text', labelField: '', valueField: '' },
+    { label: 'Data de Nascimento', campo: 'dtnascimento', tipo: 'date', labelField: '', valueField: '' },
+    { label: 'CPF', campo: 'Cpf.numero', tipo: 'select', labelField: 'numero', valueField: 'idcpf' }
+  ]"
+  [itens]="itens"
+  [endpoint]="'dependentes'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

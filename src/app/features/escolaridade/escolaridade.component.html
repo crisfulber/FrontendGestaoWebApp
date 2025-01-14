@@ -1,0 +1,14 @@
+<app-listagem-generica
+  [titulo]="'RG'"
+  [colunas]="[
+    { label: 'Escolaridade', campo: 'nome', tipo: 'number', labelField: '', valueField: '' },
+  ]"
+  [itens]="itens"
+  [endpoint]="'escolaridade'"
+  [idCampo]="idCampo"
+  [campos]="campos"
+  (itemSelecionadoChange)="onItemSelecionado($event)"
+  (incluir)="onIncluirItem()"
+  (editar)="onEditarItem($event)"
+  (excluir)="onExcluirItem($event)"
+></app-listagem-generica>

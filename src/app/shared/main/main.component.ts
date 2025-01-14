@@ -7,6 +7,8 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuItem } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-main',
@@ -17,7 +19,9 @@ import { PanelModule } from 'primeng/panel';
     ButtonModule,
     BreadcrumbModule,
     DividerModule,
-    PanelModule
+    PanelModule,
+    PanelMenuModule,
+    MenuModule
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
@@ -25,9 +29,7 @@ import { PanelModule } from 'primeng/panel';
 export class MainComponent implements OnInit {
 
   constructor() { }
-
   items: MenuItem[] | undefined;
-
   home: MenuItem | undefined;
 
   ngOnInit() {
@@ -37,5 +39,4 @@ export class MainComponent implements OnInit {
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
-
 }
